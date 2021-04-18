@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilo.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" mouseTransparent="true" opacity="0.38" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imag/pizza.jpg" />
+         </image>
+      </ImageView>
+      <Pane maxHeight="150.0" maxWidth="550.0" opacity="0.71" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: red; -fx-background-radius: 12;">
+         <StackPane.margin>
+            <Insets bottom="220.0" />
+         </StackPane.margin>
+         <children>
+            <RadioButton fx:id="normal" layoutX="24.0" layoutY="57.0" mnemonicParsing="false" onAction="#elegirMasa" selected="true" text="Normal" textFill="#ffee00">
+               <font>
+                  <Font name="Constantia Italic" size="12.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="masa" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="integral" layoutX="24.0" layoutY="83.0" mnemonicParsing="false" onAction="#elegirMasa" text="Integral" textFill="#ffee00" toggleGroup="$masa">
+               <font>
+                  <Font name="Constantia Italic" size="12.0" />
+               </font>
+            </RadioButton>
+            <Label layoutX="24.0" layoutY="11.0" text="Masa">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="tipo" layoutX="103.0" layoutY="51.0" onAction="#mostrarTipos" prefHeight="25.0" prefWidth="120.0" visibleRowCount="5" />
+            <Label layoutX="138.0" layoutY="11.0" text="Tipo">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <ListView fx:id="ingredientes" layoutX="250.0" layoutY="50.0" onEditStart="#seleccionarIngredientes" prefHeight="96.0" prefWidth="128.0">
+               <effect>
+                  <Reflection />
+               </effect>
+            </ListView>
+            <Label layoutX="242.0" layoutY="1.0" text="Ingredientes Extra">
+               <font>
+                  <Font name="System Bold Italic" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="250.0" layoutY="29.0" text="Varios con control+click" />
+            <Spinner fx:id="tamanyo" layoutX="387.0" layoutY="53.0" onDragDetected="#cambiarTamanyo" prefHeight="25.0" />
+            <Label layoutX="414.0" layoutY="15.0" text="Tamaño">
+               <font>
+                  <Font name="Constantia Bold Italic" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button fx:id="boton" mnemonicParsing="false" onAction="#mostrarPizza" opacity="0.73" prefHeight="26.0" prefWidth="294.0" style="-fx-background-color: green; -fx-background-radius: 30; -fx-border-color: red; -fx-border-width: 8; -fx-border-radius: 40;" text="Ordenar Pizza" textFill="#b40101">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <TextField alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.82" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
+         <StackPane.margin>
+            <Insets bottom="10.0" left="30.0" right="30.0" />
+         </StackPane.margin>
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextField>
+   </children>
+</StackPane>
