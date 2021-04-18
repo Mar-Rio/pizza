@@ -8,6 +8,7 @@ package hellofx;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -52,10 +53,10 @@ public class Pizza {
         return ingredientesExtra;
     }
 
-
-  
-
     public Double calcularPrecio() {
+        Double incrementoMediana = 1.15,
+                incrementoFamiliar = 1.30,
+                precioFinal = 0.0;
         Map<String, Double> precios = new HashMap<>();
         precios.put("normal", 3.0);
         precios.put("integral", 3.5);
@@ -69,6 +70,31 @@ public class Pizza {
         precios.put("cebolla", 0.75);
         precios.put("olivas", 1.0);
         precios.put("champiñones", 1.25);
-return 0.0;
+        for (Entry<String, Double> precio : precios.entrySet()) {
+            if (masa.equalsIgnoreCase(precio.getKey())) {
+                precioFinal = precio.getValue();
+                break;
+            }
+        }
+        for (Entry<String, Double> precio : precios.entrySet()) {
+            if (tipo.equalsIgnoreCase(precio.getKey())) {
+                precioFinal = precioFinal + precio.getValue();
+                break;
+            }
+        }
+        for (String ingrediente : ingredientesExtra) {
+            for (Entry<String, Double> precio : precios.entrySet()) {
+                if (ingrediente.equalsIgnoreCase(precio.getKey())) {
+                    precioFinal = precioFinal + precio.getValue();
+                }
+            }
+        }
+        if (tamanyo.equalsIgnoreCase("familiar")) {
+            precioFinal = precioFinal * incrementoFamiliar; 
+        }
+        if(tamanyo.equalsIgnoreCase("mediana")) {
+            precioFinal = precioFinal * incrementoMediana;
+        }
+        return precioFinal;
     }
 }
