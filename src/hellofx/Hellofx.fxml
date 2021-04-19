@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilo.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilo.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" mouseTransparent="true" opacity="0.38" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -52,7 +52,7 @@
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <ListView fx:id="ingredientes" layoutX="250.0" layoutY="50.0" onEditStart="#seleccionarIngredientes" prefHeight="96.0" prefWidth="128.0">
+            <ListView fx:id="ingredientes" layoutX="250.0" layoutY="50.0" onMouseClicked="#seleccionarIngredientes" prefHeight="96.0" prefWidth="128.0">
                <effect>
                   <Reflection />
                </effect>
@@ -76,7 +76,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <TextField alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.82" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
+      <TextField alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.75" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
          <StackPane.margin>
             <Insets bottom="10.0" left="30.0" right="30.0" />
          </StackPane.margin>
