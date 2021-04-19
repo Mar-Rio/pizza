@@ -20,8 +20,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -32,10 +34,10 @@ import javafx.scene.layout.StackPane;
 public class Controller implements Initializable {
 
     ObservableList<String> tamanyos
-            = FXCollections.observableArrayList("pequeña", "mediana", "familiar");
+            = FXCollections.observableArrayList("Pequeña", "Mediana", "Familiar");
     ObservableList<String> listaIngredientes
-            = FXCollections.observableArrayList("Jamón", "Queso", "Tomate", "Cebolla", "Campiñones", "Olivas");
-    private Label ver;
+            = FXCollections.observableArrayList("Jamón", "Queso", "Tomate", "Cebolla", "Champiñones", "Olivas");
+//    private Label ver;
     @FXML
     private ToggleGroup masa;
     @FXML
@@ -50,6 +52,10 @@ public class Controller implements Initializable {
     private ListView<String> ingredientes;
     @FXML
     private Button boton;
+    @FXML
+    private TextField listaSeleccion;
+    @FXML
+    private TextField panelPrecio;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -58,13 +64,14 @@ public class Controller implements Initializable {
         normal.setUserData("normal");
         integral.setUserData("integral");
         ingredientes.setItems(listaIngredientes);
-//        tipo.setVisibleRowCount(4);
-//        tipo.getItems().add("carbonara");
-//        tipo.getItems().add("cuatro quesos");
-//        tipo.getItems().add("barbacoa");
-//        tipo.getItems().add("romana");
-     
-
+        tipo.setVisibleRowCount(5);
+        tipo.getItems().add("Carbonara");
+        tipo.getItems().add("Cuatro Quesos");
+        tipo.getItems().add("Barbacoa");
+        tipo.getItems().add("Romana");
+        ingredientes.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tipo.getSelectionModel().selectFirst();
+        crearPizza();
     }
 
     @FXML
@@ -73,9 +80,6 @@ public class Controller implements Initializable {
 
     @FXML
     private void elegirMasa(ActionEvent event) {
-        Toggle seleccionado = masa.getSelectedToggle();
-        if (seleccionado.getUserData().equals("normal")) {
-        }
     }
 
     @FXML
@@ -83,6 +87,7 @@ public class Controller implements Initializable {
         String seleccionado = tamanyo.getValue();
     }
 
+    @FXML
     private void seleccionarIngredientes(MouseEvent event) {
         int posSeleccionado = ingredientes.getSelectionModel().getSelectedIndex();
         String ingredienteSeleccionado = listaIngredientes.get(posSeleccionado);
@@ -90,6 +95,21 @@ public class Controller implements Initializable {
 
     @FXML
     private void mostrarPizza(ActionEvent event) {
-    }  
-   
+        crearPizza();
+    }
+
+    private void crearPizza() {
+        Pizza pizza = new Pizza();
+        pizza.setIngredientesExtra(ingredientes.getSelectionModel().getSelectedItems());
+        pizza.setMasa(masa.getSelectedToggle().getUserData().toString());
+        pizza.setTamanyo(tamanyo.getValue());
+        pizza.setTipo(tipo.getValue());
+        listaSeleccion.setText(pizza.composicion());
+        panelPrecio.setText("PRECIO: " + String.format("%2f", pizza.calcularPrecio()) + " $$.");
+        System.out.println(masa.getSelectedToggle().toString());
+        System.out.println(tamanyo.getValue());
+        System.out.println(tipo.getValue());
+        System.out.println(ingredientes.getSelectionModel().getSelectedItems().toString());
+    }
+
 }

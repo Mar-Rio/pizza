@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilo.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilo.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" mouseTransparent="true" opacity="0.38" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -76,13 +76,21 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <TextField alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.75" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
+      <TextField fx:id="listaSeleccion" alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.75" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
          <StackPane.margin>
             <Insets bottom="10.0" left="30.0" right="30.0" />
          </StackPane.margin>
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
+      </TextField>
+      <TextField fx:id="panelPrecio" editable="false" maxHeight="60.0" maxWidth="200.0" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: pink;" StackPane.alignment="BOTTOM_RIGHT">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+         <StackPane.margin>
+            <Insets bottom="22.0" right="35.0" />
+         </StackPane.margin>
       </TextField>
    </children>
 </StackPane>

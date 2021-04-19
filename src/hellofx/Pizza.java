@@ -5,10 +5,12 @@
  */
 package hellofx;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -16,10 +18,28 @@ import java.util.Map.Entry;
  */
 public class Pizza {
 
-    private String masa = "",
-            tipo = "",
-            tamanyo = "";
-    private List<String> ingredientesExtra;
+    private String masa,
+            tipo,
+            tamanyo;
+    private ArrayList<String> ingredientesExtra;
+    private final Map<String, Double> precios = new HashMap<>();
+    private final Double incrementoMediana = 1.15,
+            incrementoFamiliar = 1.30;
+
+    public Pizza() {
+        precios.put("normal", 3.0);
+        precios.put("integral", 3.5);
+        precios.put("Carbonara", 3.0);
+        precios.put("Cuatro Quesos", 5.0);
+        precios.put("Barbacoa", 7.0);
+        precios.put("Romana", 3.5);
+        precios.put("Jamón", 0.5);
+        precios.put("Queso", 0.75);
+        precios.put("Tomate", 1.5);
+        precios.put("Cebolla", 0.75);
+        precios.put("Olivas", 1.0);
+        precios.put("Champiñones", 1.25);
+    }
 
     public void setMasa(String masa) {
         this.masa = masa;
@@ -33,8 +53,9 @@ public class Pizza {
         this.tamanyo = tamanyo;
     }
 
-    public void setIngredientesExtra(String ingrediente) {
-        this.ingredientesExtra.add(ingrediente);
+    public void setIngredientesExtra(ObservableList<String> ingredientes) {
+
+        this.ingredientesExtra = new ArrayList<>(ingredientes);
     }
 
     public String getMasa() {
@@ -54,47 +75,42 @@ public class Pizza {
     }
 
     public Double calcularPrecio() {
-        Double incrementoMediana = 1.15,
-                incrementoFamiliar = 1.30,
-                precioFinal = 0.0;
-        Map<String, Double> precios = new HashMap<>();
-        precios.put("normal", 3.0);
-        precios.put("integral", 3.5);
-        precios.put("carbonara", 3.0);
-        precios.put("cuatroQuesos", 5.0);
-        precios.put("barbacoa", 7.0);
-        precios.put("romana", 3.5);
-        precios.put("jamon", 0.5);
-        precios.put("queso", 0.75);
-        precios.put("tomate", 1.5);
-        precios.put("cebolla", 0.75);
-        precios.put("olivas", 1.0);
-        precios.put("champiñones", 1.25);
-        for (Entry<String, Double> precio : precios.entrySet()) {
-            if (masa.equalsIgnoreCase(precio.getKey())) {
-                precioFinal = precio.getValue();
-                break;
-            }
-        }
-        for (Entry<String, Double> precio : precios.entrySet()) {
-            if (tipo.equalsIgnoreCase(precio.getKey())) {
-                precioFinal = precioFinal + precio.getValue();
-                break;
-            }
-        }
-        for (String ingrediente : ingredientesExtra) {
-            for (Entry<String, Double> precio : precios.entrySet()) {
-                if (ingrediente.equalsIgnoreCase(precio.getKey())) {
-                    precioFinal = precioFinal + precio.getValue();
+        Double precioFinal = 0.0;
+        precioFinal += precios.get(masa);
+        precioFinal += precios.get(tipo);
+        if (!ingredientesExtra.isEmpty()) {
+            for (String ingrediente : ingredientesExtra) {
+                if (precios.containsKey(ingrediente)) {
+                    precioFinal += precios.get(ingrediente);
                 }
             }
         }
         if (tamanyo.equalsIgnoreCase("familiar")) {
-            precioFinal = precioFinal * incrementoFamiliar; 
+            precioFinal = precioFinal * incrementoFamiliar;
         }
-        if(tamanyo.equalsIgnoreCase("mediana")) {
+        if (tamanyo.equalsIgnoreCase("mediana")) {
             precioFinal = precioFinal * incrementoMediana;
         }
         return precioFinal;
+    }
+
+    public String composicion() {
+        String texto = "MASA: " + masa + " + " + precios.get(masa) + "$\n";
+        texto += "TIPO: " + tipo + " + " + precios.get(tipo) + "$\n";
+        if (!ingredientesExtra.isEmpty()) {
+            texto += "INGREDIENTES EXTRA: ";
+            for (int i = 0; i < ingredientesExtra.size(); i++) {
+                texto += ingredientesExtra.get(i) + " + " + precios.get(ingredientesExtra.get(i)) + "   ";
+            }
+        }
+        if (tamanyo.equalsIgnoreCase("mediana")) {
+            texto += "TAMAÑO: " + tamanyo + " + " + String.format("%.2f", (incrementoMediana - 1) * 100) + "%";
+        } else if (tamanyo.equalsIgnoreCase("familiar")) {
+            texto += "TAMAÑO: " + tamanyo + " + " + String.format("%.2f", (incrementoFamiliar - 1) * 100) + "%";
+        } else {
+            texto += "TAMAÑO: Pequeña + 0.0%";
+        }
+        return texto;
+
     }
 }

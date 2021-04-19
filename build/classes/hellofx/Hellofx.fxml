@@ -46,13 +46,13 @@
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <ComboBox fx:id="tipo" layoutX="103.0" layoutY="51.0" onAction="#mostrarTipos" prefHeight="25.0" prefWidth="120.0" visibleRowCount="4" />
+            <ComboBox fx:id="tipo" layoutX="103.0" layoutY="51.0" onAction="#mostrarTipos" prefHeight="25.0" prefWidth="120.0" visibleRowCount="5" />
             <Label layoutX="138.0" layoutY="11.0" text="Tipo">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <ListView fx:id="ingredientes" layoutX="250.0" layoutY="50.0" onEditStart="#seleccionarIngredientes" prefHeight="96.0" prefWidth="128.0">
+            <ListView fx:id="ingredientes" layoutX="250.0" layoutY="50.0" onMouseClicked="#seleccionarIngredientes" prefHeight="96.0" prefWidth="128.0">
                <effect>
                   <Reflection />
                </effect>
@@ -76,13 +76,21 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <TextField alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.82" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
+      <TextField fx:id="listaSeleccion" alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.75" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
          <StackPane.margin>
             <Insets bottom="10.0" left="30.0" right="30.0" />
          </StackPane.margin>
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
+      </TextField>
+      <TextField fx:id="panelPrecio" editable="false" maxHeight="60.0" maxWidth="200.0" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: pink;" StackPane.alignment="BOTTOM_RIGHT">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+         <StackPane.margin>
+            <Insets bottom="22.0" right="35.0" />
+         </StackPane.margin>
       </TextField>
    </children>
 </StackPane>
