@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.Reflection?>
@@ -76,21 +77,21 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <TextField fx:id="listaSeleccion" alignment="TOP_LEFT" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.75" prefHeight="100.0" prefWidth="100.0" promptText="Pizza seleccionada y precio:" style="-fx-background-color: red; -fx-background-radius: 12;" StackPane.alignment="BOTTOM_CENTER">
-         <StackPane.margin>
-            <Insets bottom="10.0" left="30.0" right="30.0" />
-         </StackPane.margin>
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </TextField>
       <TextField fx:id="panelPrecio" editable="false" maxHeight="60.0" maxWidth="200.0" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: pink;" StackPane.alignment="BOTTOM_RIGHT">
          <font>
-            <Font name="System Bold Italic" size="24.0" />
+            <Font name="System Bold Italic" size="20.0" />
          </font>
          <StackPane.margin>
             <Insets bottom="22.0" right="35.0" />
          </StackPane.margin>
       </TextField>
+      <TextArea fx:id="listaSeleccion" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.47" prefHeight="200.0" prefWidth="498.0" StackPane.alignment="BOTTOM_CENTER">
+         <StackPane.margin>
+            <Insets bottom="15.0" />
+         </StackPane.margin>
+         <font>
+            <Font size="11.0" />
+         </font>
+      </TextArea>
    </children>
 </StackPane>

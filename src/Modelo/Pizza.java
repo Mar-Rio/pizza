@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hellofx;
+package Modelo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,23 +22,14 @@ public class Pizza {
             tipo,
             tamanyo;
     private ArrayList<String> ingredientesExtra;
-    private final Map<String, Double> precios = new HashMap<>();
+  
     private final Double incrementoMediana = 1.15,
             incrementoFamiliar = 1.30;
+    private Precio precios;
 
     public Pizza() {
-        precios.put("normal", 3.0);
-        precios.put("integral", 3.5);
-        precios.put("Carbonara", 3.0);
-        precios.put("Cuatro Quesos", 5.0);
-        precios.put("Barbacoa", 7.0);
-        precios.put("Romana", 3.5);
-        precios.put("Jamón", 0.5);
-        precios.put("Queso", 0.75);
-        precios.put("Tomate", 1.5);
-        precios.put("Cebolla", 0.75);
-        precios.put("Olivas", 1.0);
-        precios.put("Champiñones", 1.25);
+        precios = new Precio(1.15,1.3);
+       
     }
 
     public void setMasa(String masa) {
@@ -54,7 +45,6 @@ public class Pizza {
     }
 
     public void setIngredientesExtra(ObservableList<String> ingredientes) {
-
         this.ingredientesExtra = new ArrayList<>(ingredientes);
     }
 
@@ -76,12 +66,12 @@ public class Pizza {
 
     public Double calcularPrecio() {
         Double precioFinal = 0.0;
-        precioFinal += precios.get(masa);
-        precioFinal += precios.get(tipo);
+        precioFinal += precios.getPrecios().get(masa);
+        precioFinal += precios.getPrecios().get(tipo);
         if (!ingredientesExtra.isEmpty()) {
             for (String ingrediente : ingredientesExtra) {
-                if (precios.containsKey(ingrediente)) {
-                    precioFinal += precios.get(ingrediente);
+                if (precios.getPrecios().containsKey(ingrediente)) {
+                    precioFinal += precios.getPrecios().get(ingrediente);
                 }
             }
         }
@@ -95,20 +85,21 @@ public class Pizza {
     }
 
     public String composicion() {
-        String texto = "MASA: " + masa + " + " + precios.get(masa) + "$\n";
-        texto += "TIPO: " + tipo + " + " + precios.get(tipo) + "$\n";
-        if (!ingredientesExtra.isEmpty()) {
+        String texto = "MASA: " + masa + " + " + precios.getPrecios().get(masa) + "$\n";
+        texto += "TIPO: " + tipo + " + " + precios.getPrecios().get(tipo) + "$\n";
+       
+        if (tamanyo.equalsIgnoreCase("mediana")) {
+            texto += "TAMAÑO: " + tamanyo + " + " + String.format("%.2f", (incrementoMediana - 1) * 100) + "%\n";
+        } else if (tamanyo.equalsIgnoreCase("familiar")) {
+            texto += "TAMAÑO: " + tamanyo + " + " + String.format("%.2f", (incrementoFamiliar - 1) * 100) + "%\n";
+        } else {
+            texto += "TAMAÑO: Pequeña + 0.0%\n";
+        }
+         if (!ingredientesExtra.isEmpty()) {
             texto += "INGREDIENTES EXTRA: ";
             for (int i = 0; i < ingredientesExtra.size(); i++) {
-                texto += ingredientesExtra.get(i) + " + " + precios.get(ingredientesExtra.get(i)) + "   ";
+                texto += ingredientesExtra.get(i) + " +" + precios.getPrecios().get(ingredientesExtra.get(i)) + "  ";
             }
-        }
-        if (tamanyo.equalsIgnoreCase("mediana")) {
-            texto += "TAMAÑO: " + tamanyo + " + " + String.format("%.2f", (incrementoMediana - 1) * 100) + "%";
-        } else if (tamanyo.equalsIgnoreCase("familiar")) {
-            texto += "TAMAÑO: " + tamanyo + " + " + String.format("%.2f", (incrementoFamiliar - 1) * 100) + "%";
-        } else {
-            texto += "TAMAÑO: Pequeña + 0.0%";
         }
         return texto;
 

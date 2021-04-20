@@ -1,5 +1,6 @@
 package hellofx;
 
+import Modelo.Pizza;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Toggle;
@@ -53,16 +55,18 @@ public class Controller implements Initializable {
     @FXML
     private Button boton;
     @FXML
-    private TextField listaSeleccion;
+    private TextArea listaSeleccion;
     @FXML
     private TextField panelPrecio;
+
+    private Pizza pizza;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         SpinnerValueFactory.ListSpinnerValueFactory valores = new SpinnerValueFactory.ListSpinnerValueFactory(tamanyos);
         tamanyo.setValueFactory(valores);
-        normal.setUserData("normal");
-        integral.setUserData("integral");
+        normal.setUserData("Normal");
+        integral.setUserData("Integral");
         ingredientes.setItems(listaIngredientes);
         tipo.setVisibleRowCount(5);
         tipo.getItems().add("Carbonara");
@@ -71,6 +75,7 @@ public class Controller implements Initializable {
         tipo.getItems().add("Romana");
         ingredientes.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tipo.getSelectionModel().selectFirst();
+        pizza = new Pizza();
         crearPizza();
     }
 
@@ -99,17 +104,16 @@ public class Controller implements Initializable {
     }
 
     private void crearPizza() {
-        Pizza pizza = new Pizza();
         pizza.setIngredientesExtra(ingredientes.getSelectionModel().getSelectedItems());
         pizza.setMasa(masa.getSelectedToggle().getUserData().toString());
         pizza.setTamanyo(tamanyo.getValue());
         pizza.setTipo(tipo.getValue());
         listaSeleccion.setText(pizza.composicion());
-        panelPrecio.setText("PRECIO: " + String.format("%2f", pizza.calcularPrecio()) + " $$.");
-        System.out.println(masa.getSelectedToggle().toString());
-        System.out.println(tamanyo.getValue());
-        System.out.println(tipo.getValue());
-        System.out.println(ingredientes.getSelectionModel().getSelectedItems().toString());
+        panelPrecio.setText(String.format("PRECIO: %.2f$$.", pizza.calcularPrecio()));
+//        System.out.println(masa.getSelectedToggle().toString());
+//        System.out.println(tamanyo.getValue());
+//        System.out.println(tipo.getValue());
+//        System.out.println(ingredientes.getSelectionModel().getSelectedItems().toString());
     }
 
 }
