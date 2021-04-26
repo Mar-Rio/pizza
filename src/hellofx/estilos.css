@@ -1,0 +1,16 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22 abr. 2021, 12:39:43
+    Author     : cosca
+*/
+#cocina {   
+    -fx-background-image: url("../imag/pizarra.jpg");
+}
+
+#pagar {
+    -fx-background-image: url("..imag/dolar.jpg");
+}

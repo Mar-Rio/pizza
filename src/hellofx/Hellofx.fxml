@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -10,6 +11,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,81 +19,200 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../estilo.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
+<StackPane fx:id="fondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../estilo.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" mouseTransparent="true" opacity="0.38" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="701.0" fitWidth="900.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imag/pizza.jpg" />
          </image>
       </ImageView>
-      <Pane maxHeight="150.0" maxWidth="550.0" opacity="0.71" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: red; -fx-background-radius: 12;">
+      <TextArea id="fondo" fx:id="listaSeleccion" editable="false" maxHeight="250.0" maxWidth="200.0" mouseTransparent="true" opacity="0.47" prefHeight="250.0" prefWidth="300.0" stylesheets="@estilos.css" StackPane.alignment="BOTTOM_LEFT">
          <StackPane.margin>
-            <Insets bottom="220.0" />
+            <Insets bottom="15.0" left="20.0" />
          </StackPane.margin>
+         <font>
+            <Font name="Rubik Bold Italic" size="13.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </TextArea>
+      <Button id="crearPizza" fx:id="botonNuevaPizza" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#resetearPedido" opacity="0.79" prefHeight="54.0" prefWidth="208.0" style="-fx-background-color: palegreen; -fx-background-radius: 10;" stylesheets="@estilos.css" text="Comenzar de nuevo" StackPane.alignment="TOP_LEFT">
+         <StackPane.margin>
+            <Insets left="50.0" top="10.0" />
+         </StackPane.margin>
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+         <graphic>
+            <ImageView fx:id="pizza1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imag/pizza1.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <ListView fx:id="pizzasCreadas" editable="true" maxHeight="200.0" maxWidth="300.0" onMouseClicked="#eliminarPizza" opacity="0.7" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: palegreen;" stylesheets="@estilos.css" StackPane.alignment="BOTTOM_RIGHT">
+         <StackPane.margin>
+            <Insets bottom="65.0" right="20.0" />
+         </StackPane.margin>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ListView>
+      <Button fx:id="guardar" alignment="BOTTOM_CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#guardarPizza" opacity="0.95" prefHeight="128.0" prefWidth="110.0" style="-fx-background-color: white; -fx-background-radius: 25;" text="Guardar Pizza" textFill="#ff4000" StackPane.alignment="BOTTOM_CENTER">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <StackPane.margin>
+            <Insets bottom="100.0" right="100.0" />
+         </StackPane.margin>
+         <graphic>
+            <ImageView fx:id="thumbsUp" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imag/thumbsUp.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
+      <Pane id="pagar" maxHeight="60.0" maxWidth="350.0" mouseTransparent="true" prefHeight="200.0" prefWidth="250.0" stylesheets="@estilos.css" StackPane.alignment="BOTTOM_RIGHT">
          <children>
-            <RadioButton fx:id="normal" layoutX="24.0" layoutY="57.0" mnemonicParsing="false" onAction="#elegirMasa" selected="true" text="Normal" textFill="#ffee00">
+            <ImageView fitHeight="240.0" fitWidth="600.0" layoutY="-85.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" scaleY="0.3">
+               <image>
+                  <Image url="@../imag/dolar.jpg" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <TextField fx:id="panelPrecio" alignment="CENTER_RIGHT" editable="false" layoutX="-2.0" maxHeight="60.0" maxWidth="350.0" mouseTransparent="true" opacity="0.68" prefHeight="60.0" prefWidth="350.0" style="-fx-background-radius: 30;" stylesheets="@estilos.css">
                <font>
-                  <Font name="Constantia Italic" size="12.0" />
+                  <Font name="System Bold Italic" size="20.0" />
                </font>
-               <toggleGroup>
-                  <ToggleGroup fx:id="masa" />
-               </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="integral" layoutX="24.0" layoutY="83.0" mnemonicParsing="false" onAction="#elegirMasa" text="Integral" textFill="#ffee00" toggleGroup="$masa">
-               <font>
-                  <Font name="Constantia Italic" size="12.0" />
-               </font>
-            </RadioButton>
-            <Label layoutX="24.0" layoutY="11.0" text="Masa">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="tipo" layoutX="103.0" layoutY="51.0" onAction="#mostrarTipos" prefHeight="25.0" prefWidth="120.0" visibleRowCount="5" />
-            <Label layoutX="138.0" layoutY="11.0" text="Tipo">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Label>
-            <ListView fx:id="ingredientes" layoutX="250.0" layoutY="50.0" onMouseClicked="#seleccionarIngredientes" prefHeight="96.0" prefWidth="128.0">
                <effect>
                   <Reflection />
                </effect>
-            </ListView>
-            <Label layoutX="242.0" layoutY="1.0" text="Ingredientes Extra">
+            </TextField>
+            <Label fx:id="precioParcial" alignment="CENTER" prefHeight="60.0" prefWidth="174.0">
                <font>
                   <Font name="System Bold Italic" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="29.0" text="Varios con control+click" />
-            <Spinner fx:id="tamanyo" layoutX="387.0" layoutY="53.0" onDragDetected="#cambiarTamanyo" prefHeight="25.0" />
-            <Label layoutX="414.0" layoutY="15.0" text="Tamaño">
-               <font>
-                  <Font name="Constantia Bold Italic" size="24.0" />
-               </font>
-            </Label>
          </children>
       </Pane>
-      <Button fx:id="boton" mnemonicParsing="false" onAction="#mostrarPizza" opacity="0.73" prefHeight="26.0" prefWidth="294.0" style="-fx-background-color: green; -fx-background-radius: 30; -fx-border-color: red; -fx-border-width: 8; -fx-border-radius: 40;" text="Ordenar Pizza" textFill="#b40101">
+      <Pane id="cocina" maxHeight="200.0" maxWidth="600.0" prefHeight="200.0" prefWidth="650.0" stylesheets="@estilos.css">
+         <StackPane.margin>
+            <Insets bottom="200.0" />
+         </StackPane.margin>
+         <children>
+            <RadioButton fx:id="normal" layoutX="11.0" layoutY="53.0" mnemonicParsing="false" onAction="#elegirMasa" selected="true" text="Normal" textFill="#ffee00">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="masa" />
+               </toggleGroup>
+               <effect>
+                  <Reflection />
+               </effect>
+            </RadioButton>
+            <RadioButton fx:id="integral" layoutX="10.0" layoutY="86.0" mnemonicParsing="false" onAction="#elegirMasa" text="Integral" textFill="#ffee00" toggleGroup="$masa">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </RadioButton>
+            <Label layoutX="24.0" layoutY="11.0" text="Masa" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="tipo" layoutX="128.0" layoutY="53.0" onAction="#mostrarTipos" prefHeight="25.0" prefWidth="120.0" visibleRowCount="5">
+               <effect>
+                  <Reflection />
+               </effect></ComboBox>
+            <Label layoutX="163.0" layoutY="12.0" text="Tipo" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <ListView fx:id="ingredientes" layoutX="275.0" layoutY="51.0" onMouseClicked="#seleccionarIngredientes" prefHeight="96.0" prefWidth="128.0">
+               <effect>
+                  <Reflection />
+               </effect>
+            </ListView>
+            <Label layoutX="266.0" layoutY="-2.0" text="Ingredientes Extra" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="275.0" layoutY="29.0" prefWidth="500.0" text="Varios con control+click" textFill="WHITE" />
+            <Spinner fx:id="tamanyo" layoutX="424.0" layoutY="53.0" onDragDetected="#cambiarTamanyo" onMouseClicked="#cambiarTamanyo" prefHeight="25.0">
+               <effect>
+                  <Reflection />
+               </effect></Spinner>
+            <Label layoutX="445.0" layoutY="15.0" text="Tamaño" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="Gratinar" layoutX="424.0" layoutY="100.0" mnemonicParsing="false" onAction="#incluirGratinado" text="Gratinada" textFill="#ecff00">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </CheckBox>
+            <CheckBox fx:id="incluirBebida" layoutX="424.0" layoutY="147.0" mnemonicParsing="false" onAction="#sumarBebida" text="Incluir Bebida" textFill="#fdff00">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </CheckBox>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <Label fx:id="pizzaEnProceso" alignment="TOP_CENTER" mouseTransparent="true" prefHeight="50.0" prefWidth="140.0" text="Pizza 1" StackPane.alignment="TOP_CENTER">
          <font>
-            <Font size="15.0" />
+            <Font name="System Bold" size="33.0" />
          </font>
+         <StackPane.margin>
+            <Insets left="450.0" top="50.0" />
+         </StackPane.margin>
+      </Label>
+      <Button fx:id="enviarPedido" alignment="BOTTOM_LEFT" maxHeight="80.0" maxWidth="200.0" mnemonicParsing="false" onAction="#mostrarPedido" opacity="0.93" prefHeight="100.0" prefWidth="50.0" style="-fx-background-radius: 20; -fx-background-color: RED;" text=" A  COCINA!!!" StackPane.alignment="BOTTOM_LEFT">
+         <graphic>
+            <ImageView fitHeight="100.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imag/pizzero.jpg" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+         </graphic>
+         <StackPane.margin>
+            <Insets bottom="5.0" left="250.0" />
+         </StackPane.margin>
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
       </Button>
-      <TextField fx:id="panelPrecio" editable="false" maxHeight="60.0" maxWidth="200.0" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: pink;" StackPane.alignment="BOTTOM_RIGHT">
-         <font>
-            <Font name="System Bold Italic" size="20.0" />
-         </font>
-         <StackPane.margin>
-            <Insets bottom="22.0" right="35.0" />
-         </StackPane.margin>
-      </TextField>
-      <TextArea fx:id="listaSeleccion" editable="false" maxHeight="150.0" maxWidth="550.0" opacity="0.47" prefHeight="200.0" prefWidth="498.0" StackPane.alignment="BOTTOM_CENTER">
-         <StackPane.margin>
-            <Insets bottom="15.0" />
-         </StackPane.margin>
-         <font>
-            <Font size="11.0" />
-         </font>
-      </TextArea>
    </children>
 </StackPane>

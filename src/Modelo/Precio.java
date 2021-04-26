@@ -14,12 +14,14 @@ import java.util.Map;
  */
 public class Precio {
 private final Map<String, Double> precios = new HashMap<>();
-private Double tamanyoMediana,
-        tamanyoFamiliar;
+private  Double tamanyoMediana,
+        tamanyoFamiliar,
+        pizzaGratinada;
 
-    public Precio(Double tamanyoMediana, Double tamanyoFamiliar) {
-        this.tamanyoMediana = tamanyoMediana;
-        this.tamanyoFamiliar = tamanyoFamiliar;
+    public Precio() {
+        this.tamanyoMediana = 1.15;
+        this.tamanyoFamiliar = 1.3;
+        this.pizzaGratinada = 1.02;
         precios.put("Normal", 3.0);
         precios.put("Integral", 3.5);
         precios.put("Carbonara", 3.0);
@@ -32,6 +34,15 @@ private Double tamanyoMediana,
         precios.put("Cebolla", 0.75);
         precios.put("Olivas", 1.0);
         precios.put("Champiñones", 1.25);
+        precios.put("Incluir Bebida", 2.0);
+    }
+
+    public Double getPizzaGratinada() {
+        return pizzaGratinada;
+    }
+
+    public void setPizzaGratinada(Double pizzaGratinada) {
+        this.pizzaGratinada = pizzaGratinada;
     }
 
     public Map<String, Double> getPrecios() {

@@ -12,15 +12,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("hellofx.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Ristorante di Mario");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
-        Pizza pizza = new Pizza();
-        launch(args);
-        
+               launch(args);        
     }
 }
