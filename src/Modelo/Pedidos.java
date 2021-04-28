@@ -91,8 +91,7 @@ public class Pedidos {
 
     public void eliminarPizzasPedido() {
         pizzasPedido.clear();
-        Pizza.contador = 1;
-        contador -= 1;
+        Pizza.contador = 1;       
     }
 
     public void añadirPizzaPedido(Pizza pizza, Double precio) {

@@ -6,6 +6,7 @@
 package Modelo;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,14 +16,20 @@ import java.util.Map;
  */
 public class RegistroJornadaLaboral {
 
+    private LocalDate dia;
     private Map<Pedidos, Path> pedidosHoy;
 
     public RegistroJornadaLaboral() {
+        dia = LocalDate.now();
         this.pedidosHoy = new HashMap<>();
     }
 
     public Map<Pedidos, Path> getPedidosHoy() {
         return pedidosHoy;
+    }
+
+    public LocalDate getDia() {
+        return dia;
     }
 
     public void setPedidosHoy(Pedidos pedido, Path ruta) {

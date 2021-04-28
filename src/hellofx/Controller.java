@@ -1,6 +1,7 @@
 package hellofx;
 
 import Modelo.Pedidos;
+import static Modelo.Pedidos.contador;
 import Modelo.Pizza;
 import Modelo.RegistroJornadaLaboral;
 import java.io.BufferedWriter;
@@ -273,17 +274,22 @@ public class Controller implements Initializable {
 
     @FXML
     private void resetearPedido(ActionEvent event) {
-        nuevoPedido();
+        limpiarInterfaz();
+        Pedidos.contador -= 1;
+        resetear();
     }
 
-    private void nuevoPedido() {
+    private void limpiarInterfaz() {
         pedido.eliminarPizzasPedido();
         totalConfirmado.setText("");
         listaDescripcionPizzas.clear();
         pizzasCreadas.setItems(listaDescripcionPizzas);
         Pizza.contador = 2;
         pizza.setNumeroPizza(1);
-        Pedidos.contador +=1;
+    }
+
+    private void nuevoPedido() {
+        limpiarInterfaz();
         resetear();
     }
 
