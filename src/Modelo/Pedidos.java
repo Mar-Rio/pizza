@@ -13,6 +13,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import hellofx.Controller;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -22,11 +30,38 @@ public class Pedidos {
 
     private int numeroPedido;
     private Map<Pizza, Double> pizzasPedido = new LinkedHashMap<>();
-    private static int contador = 1;
+    public static int contador = 1;
     private double precioPedido = 0;
+    private LocalDateTime horaPedido;
+    private String persona;
+    private Path ruta;
 
     public Pedidos() {
         numeroPedido = contador++;
+    }
+
+    public Path getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(Path ruta) {
+        this.ruta = ruta;
+    }
+
+    public void setHoraPedido(LocalDateTime horaPedido) {
+        this.horaPedido = horaPedido;
+    }
+
+    public void setPersona(String persona) {
+        this.persona = persona;
+    }
+
+    public LocalDateTime getHoraPedido() {
+        return horaPedido;
+    }
+
+    public String getPersona() {
+        return persona;
     }
 
     public double getPrecioPedido() {
@@ -70,4 +105,4 @@ public class Pedidos {
         Pizza pizzaEliminar = (Pizza) keys.get(pizza);
         pizzasPedido.remove(pizzaEliminar);
     }
-  }
+}

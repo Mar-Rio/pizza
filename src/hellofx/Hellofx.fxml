@@ -214,5 +214,13 @@
             <DropShadow />
          </effect>
       </Button>
+      <Label fx:id="totalConfirmado" alignment="CENTER" prefHeight="30.0" prefWidth="82.0" StackPane.alignment="BOTTOM_CENTER">
+         <StackPane.margin>
+            <Insets bottom="10.0" right="20.0" />
+         </StackPane.margin>
+         <font>
+            <Font name="System Bold Italic" size="17.0" />
+         </font>
+      </Label>
    </children>
 </StackPane>

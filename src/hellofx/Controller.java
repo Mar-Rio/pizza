@@ -2,7 +2,18 @@ package hellofx;
 
 import Modelo.Pedidos;
 import Modelo.Pizza;
+import Modelo.RegistroJornadaLaboral;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -83,8 +94,11 @@ public class Controller implements Initializable {
     private ImageView pizza1;
     private Pizza pizza;
     private Pedidos pedido;
+    private RegistroJornadaLaboral pedidosHoy;
     @FXML
     private Button enviarPedido;
+    @FXML
+    private Label totalConfirmado;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,6 +119,7 @@ public class Controller implements Initializable {
         incluirBebida.setUserData("incluir bebida");
         pedido = new Pedidos();
         pizza = new Pizza();
+        pedidosHoy = new RegistroJornadaLaboral();
         System.out.println(tamanyo.getValue());
         crearPizza();
 
@@ -156,7 +171,7 @@ public class Controller implements Initializable {
             panelPrecio.setText(String.format("A Pagar: %.2f$$.", pizza.calcularPrecio()));
             precioParcial.setText("");
         } else {
-            panelPrecio.setText(String.format("Total: %.2f$$", pedido.getPrecioPedido() + pizza.calcularPrecio()));
+            panelPrecio.setText(String.format("A Pagar: %.2f$$", pedido.getPrecioPedido() + pizza.calcularPrecio()));
             precioParcial.setText("Pizza " + pizza.getNumeroPizza() + ":  " + String.format("%.2f$$", pizza.calcularPrecio()));
         }
     }
@@ -186,36 +201,44 @@ public class Controller implements Initializable {
 
     @FXML
     private void eliminarPizza(MouseEvent event) {
-        Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
-        dialogoAlerta.setTitle("¿Vas a eliminar la siguiente pizza del pedido?");
-        dialogoAlerta.setHeaderText(pizzasCreadas.getSelectionModel().getSelectedItem());
-        List keys = new ArrayList(pedido.getPizzasPedido().keySet());
-        dialogoAlerta.setContentText(((Pizza) keys.get(pizzasCreadas.getSelectionModel().getSelectedIndex())).getDescripcionPizza());
+        if (event.getClickCount() == 2) {
+            Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
+            dialogoAlerta.setTitle("¿Vas a eliminar la siguiente pizza del pedido?");
+            dialogoAlerta.setHeaderText(pizzasCreadas.getSelectionModel().getSelectedItem());
+            List keys = new ArrayList(pedido.getPizzasPedido().keySet());
+            dialogoAlerta.setContentText(((Pizza) keys.get(pizzasCreadas.getSelectionModel().getSelectedIndex())).getDescripcionPizza());
 
-        Optional<ButtonType> confirmacion = dialogoAlerta.showAndWait();
-        if (confirmacion.get() == ButtonType.OK) {
-            int indice = pizzasCreadas.getSelectionModel().getSelectedIndex();
-            pedido.eliminarPizza(indice);
-            listaDescripcionPizzas.remove(indice);
-            for (Entry<Pizza, Double> pizzaGuardada : pedido.getPizzasPedido().entrySet()) {
-                if (pizzaGuardada.getKey().getNumeroPizza() > indice) {
-                    pizzaGuardada.getKey().setNumeroPizza(pizzaGuardada.getKey().getNumeroPizza() - 1);
+            Optional<ButtonType> confirmacion = dialogoAlerta.showAndWait();
+            if (confirmacion.get() == ButtonType.OK) {
+                int indice = pizzasCreadas.getSelectionModel().getSelectedIndex();
+                pedido.eliminarPizza(indice);
+
+                listaDescripcionPizzas.remove(indice);
+                for (Entry<Pizza, Double> pizzaGuardada : pedido.getPizzasPedido().entrySet()) {
+                    if (pizzaGuardada.getKey().getNumeroPizza() > indice) {
+                        pizzaGuardada.getKey().setNumeroPizza(pizzaGuardada.getKey().getNumeroPizza() - 1);
+                    }
                 }
-            }
-            Pizza.contador--;
-            pizza.setNumeroPizza(pizza.getNumeroPizza() - 1);
-            listaDescripcionPizzas.clear();
-            for (Entry<Pizza, Double> pizzaGuardada : pedido.getPizzasPedido().entrySet()) {
-                String nombrePizza = pizzaGuardada.getKey().getNumeroPizza() + " " + pizzaGuardada.getKey().getTipo() + " "
-                        + pizzaGuardada.getKey().getMasa() + " " + pizzaGuardada.getKey().getTamanyo() + " "
-                        + String.format("%.2f", pizzaGuardada.getKey().calcularPrecio()) + "$";
-                if (!pizzaGuardada.getKey().getBebida().isEmpty()) {
-                    nombrePizza += " +Bebida";
+                if (pedido.getPizzasPedido().isEmpty()) {
+                    totalConfirmado.setText("");
+                } else {
+                    totalConfirmado.setText(pedido.getPrecioPedido() + "$$");
                 }
-                listaDescripcionPizzas.add(nombrePizza);
+                Pizza.contador--;
+                pizza.setNumeroPizza(pizza.getNumeroPizza() - 1);
+                listaDescripcionPizzas.clear();
+                for (Entry<Pizza, Double> pizzaGuardada : pedido.getPizzasPedido().entrySet()) {
+                    String nombrePizza = pizzaGuardada.getKey().getNumeroPizza() + " " + pizzaGuardada.getKey().getTipo() + " "
+                            + pizzaGuardada.getKey().getMasa() + " " + pizzaGuardada.getKey().getTamanyo() + " "
+                            + String.format("%.2f", pizzaGuardada.getKey().calcularPrecio()) + "$";
+                    if (!pizzaGuardada.getKey().getBebida().isEmpty()) {
+                        nombrePizza += " +Bebida";
+                    }
+                    listaDescripcionPizzas.add(nombrePizza);
+                }
+                pizzasCreadas.setItems(listaDescripcionPizzas);
+                crearPizza();
             }
-            pizzasCreadas.setItems(listaDescripcionPizzas);
-            crearPizza();
         }
     }
 
@@ -243,17 +266,24 @@ public class Controller implements Initializable {
         listaDescripcionPizzas.add(nombrePizza);
         pizzasCreadas.setItems(listaDescripcionPizzas);
         pedido.añadirPizzaPedido(pizza, pizza.calcularPrecio());
+        totalConfirmado.setText(pedido.getPrecioPedido() + "$$");
         pizza = new Pizza();
         resetear();
     }
 
     @FXML
     private void resetearPedido(ActionEvent event) {
+        nuevoPedido();
+    }
+
+    private void nuevoPedido() {
         pedido.eliminarPizzasPedido();
+        totalConfirmado.setText("");
         listaDescripcionPizzas.clear();
         pizzasCreadas.setItems(listaDescripcionPizzas);
         Pizza.contador = 2;
         pizza.setNumeroPizza(1);
+        Pedidos.contador +=1;
         resetear();
     }
 
@@ -265,17 +295,68 @@ public class Controller implements Initializable {
         if (pedido.getPizzasPedido().isEmpty()) {
             dialogo.setContentText("Guarda primero las pizzas que quieras ordenar!!!");
         } else {
-            String aCocina = "Pedido: " + pedido.getNumeroPedido();
+            boolean nombreCorrecto = false;
+            do {
+                TextInputDialog pedirNombre = new TextInputDialog();
+                pedirNombre.setTitle("Las Pizzas están en el horno!!!");
+                pedirNombre.setHeaderText("¿Por quien preguntamos cuando esten cocinadas?");
+                pedirNombre.setContentText("Introduce un nombre:");
+                Optional<String> respuesta = pedirNombre.showAndWait();
+                if (pedirNombre.getEditor().getText().isEmpty()) {
+                    Alert sinNombre = new Alert(Alert.AlertType.WARNING);
+                    sinNombre.setTitle("AVISO!!!");
+                    sinNombre.setHeaderText("Necesitamos un nombre");
+                    sinNombre.setContentText("No enviamos Pizzas a extraterrestres anonimos");
+                    sinNombre.showAndWait();
+                } else {
+                    pedido.setPersona(respuesta.get());
+                    pedido.setHoraPedido(LocalDateTime.now());
+                    nombreCorrecto = true;
+                }
+            } while (!nombreCorrecto);
+            dialogo.setHeaderText("El ticket se ha enviado con exito");
+            String aCocina = "Pedido: " + String.format("%02d", pedido.getNumeroPedido());
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MMMM/yyyy--HH:mm");
+            aCocina += "\nEntregar a: " + pedido.getPersona() + " " + pedido.getHoraPedido().format(formato) + "h.\n";
             int i = 0;
             for (Entry<Pizza, Double> entrada : pedido.getPizzasPedido().entrySet()) {
                 aCocina += "\n" + listaDescripcionPizzas.get(i);
                 aCocina += "\n" + entrada.getKey().getDescripcionPizza();
-                aCocina += "\nPrecio del Pedido: " + String.format("%.2f$$", entrada.getValue()) + "\n\n";
+                aCocina += "\nPrecio de la pizza: " + String.format("%.2f$$", entrada.getValue()) + "\n\n";
                 i++;
             }
+            aCocina += "PRECIO TOTAL DEL PEDIDO:  " + pedido.getPrecioPedido() + "$$";
             dialogo.setContentText(aCocina);
+            try {
+                generarTicket(aCocina);
+                pedidosHoy.setPedidosHoy(pedido, pedido.getRuta());
+                Pizza.contador = 2;
+                pizza.setNumeroPizza(1);
+                nuevoPedido();
+                pedido = new Pedidos();
+            } catch (IOException e) {
+                Alert falloEscritura = new Alert(Alert.AlertType.WARNING);
+                falloEscritura.setTitle("AVISO!!!");
+                falloEscritura.setHeaderText("El archivo no se ha creado");
+                falloEscritura.setContentText("No tienes permisos o el archivo ya existia.");
+                falloEscritura.showAndWait();
+            }
         }
         dialogo.showAndWait();
+    }
 
+    public void generarTicket(String aCocina) throws IOException {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH_mm");
+        String nombreArchivo = "Pedido" + String.format("%02d", pedido.getNumeroPedido())
+                + "_" + pedido.getHoraPedido().format(formato) + ".txt";
+        Path archivo = Paths.get(nombreArchivo);
+        try (BufferedWriter temporal
+                = Files.newBufferedWriter(archivo, Charset.defaultCharset(), StandardOpenOption.CREATE_NEW)) {
+            temporal.write(aCocina);
+            pedido.setRuta(archivo);
+        } catch (IOException e) {
+            throw new IOException();
+
+        }
     }
 }
